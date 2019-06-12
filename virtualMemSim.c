@@ -274,7 +274,7 @@ int SecondChance (int *tempo, int *bitRef, int n)
 int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, int modo, int fSize)
 {
 	MEMORIA mainMemory; // memória principal (não inicializada ainda)
-	int flag1, flag2, cont = 0, contQuadros, pos, numPage, numFrame, contProcess, j, i;	
+	int flag1, flag2, cont = 0, contQuadros, pos, numPage, numFrame, j, i;	
 	int contador = 0, contadorSemTrocas = 0, pageFaults = 0;		
 	FILE *arq;
 
@@ -314,9 +314,9 @@ int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, 
 		if (strcmp(pOper,"C") != 0) { // processo de leitura ou gravação
 			fscanf(arq, "%x", &posicaoMemoria);
 			numPage = posicaoMemoria / fSize;
+			cont++;	
 			printf("\nmem: %d, fSize: %d\n", posicaoMemoria, fSize);
 			printf("\nChamada %d\t Pagina: %d do processo: %s", cont, numPage, pName);
-
 
 			//VERIFICAR SE A PÁGINA JÁ FOI REFERENCIADA
 			for (i = 0; i < processCont; i++) { // procurar de qual page table é o processo
@@ -450,7 +450,7 @@ int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, 
 		}
 
 
-	cont++;	
+	
 
 	}
 	free(mainMemory.frames);
