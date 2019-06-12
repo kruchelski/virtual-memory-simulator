@@ -14,8 +14,11 @@ This little application explores three algorithms for memory allocation:
 The program takes an input in the form of a txt file with the instructions to the "CPU". The instructions can be the creation of a process, read and write at specif memory locations.
 - Example of a file:
 > P1 C 500 KB
+>
 > P2 C 100 KB
+>
 > P1 R 0x010
+>
 > P2 W 0xfff
 
 In the above example, the first line indicates the creation (C) of process P1 and it's size: 500 KB. The second line indicates the creation (C) of process P2 and it's size: 100 KB. The third line indicates the READ instruction for process P1 in the memory location of 0x010. The last line indicates the WRITE instruction for the process P2 in the memory location of 0xfff.
