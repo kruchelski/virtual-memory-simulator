@@ -210,8 +210,10 @@ void initMemory(MEMORIA *m, int framesQnt) {
 	}
 }
 
-
-
+/* LRU - Verifica qual quadro da memoria foi utilizado menos recentemente, percorrendo o
+*  numero de quadros total e retornando a posicao do quadro que foi usado menos recentemente,
+*  que deve ser trocado
+*/ 
 int leastRecentlyUsed (int *tempo, int n)
 {
 	int cont, minimo = tempo[0], pos = 0;		
@@ -271,6 +273,9 @@ int SecondChance (int *tempo, int *bitRef, int n)
 	return pos;							
 }
 
+/* 
+*  Simulador de Memoria Virtual
+*/
 int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, int modo, int fSize)
 {
 	MEMORIA mainMemory; // memória principal (não inicializada ainda)
