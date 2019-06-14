@@ -23,7 +23,7 @@ The program takes an input in the form of a txt file with the instructions to th
 
 In the above example, the first line indicates the creation (C) of process P1 and it's size: 500 KB. The second line indicates the creation (C) of process P2 and it's size: 100 KB. The third line indicates the READ instruction for process P1 in the memory location of 0x010. The last line indicates the WRITE instruction for the process P2 in the memory location of 0xfff.
 The READ and WRITE instructions are treated equally for the purposes of this application. The only difference is the CREATE instruction.
-
+  
 **IMPORTANT: The .txt file must be structured exactly like the two provided in the repository**
 
 ### Instructions:
@@ -31,16 +31,20 @@ The READ and WRITE instructions are treated equally for the purposes of this app
 After compiling, in order to execute from the command line interface, it's important to pass the proper arguments:
 
 - -p followed by the frame size in Bytes
-- -m followed by the size of the main memory
+- -m followed by the size of the main memory  
+
 *OBS: the size of the main memory must be a multiple of the frame size* 
 
-Here's an example:
-`./memsimfinal -p 1000 -m 5000`
+Here's an example:  
+
+`./memsimfinal -p 1000 -m 5000`  
+
 This will specify the frame/page size to 1000B (-p 1000) and will create a "main memory" with 5000B (-m 5000). 
 
 In case of a problem with the arguments, the program will use it's default values:
 - Frame size: 1000B
 - Main memory size: 4000B
+ 
 
 The program will receive, as input file, a .txt with the name "process.txt" which have some instructions to be executed.
 The output will show how pages are being allocated in the frames of the main memory.
