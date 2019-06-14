@@ -11,7 +11,7 @@ This little application explores three algorithms for memory allocation:
 2. Least Recently Used Reference Bit
 3. Second Chance
 
-The program takes an input in the form of a txt file with the instructions to the "CPU". The instructions can be the creation of a process, read and write at specif memory locations.
+The program takes an input in the form of a txt file with the instructions to the "CPU". The instructions can be the creation of a process, read and write at specific memory locations.
 - Example of a file:
 > P1 C 500 KB
 >
@@ -33,6 +33,10 @@ After compiling, in order to execute from the command line interface, it's impor
 - -p followed by the frame size in Bytes
 - -m followed by the size of the main memory
 *OBS: the size of the main memory must be a multiple of the frame size* 
+
+Here's an example:
+`./memsimfinal -p 1000 -m 5000`
+This will specify the frame/page size to 1000B (-p 1000) and will create a "main memory" with 5000B (-m 5000). 
 
 In case of a problem with the arguments, the program will use it's default values:
 - Frame size: 1000B
