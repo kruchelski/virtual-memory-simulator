@@ -14,6 +14,7 @@ typedef struct _PROCESSO {
 	int *pageTable;
 	unsigned long int procSize;
 	int pageQnt;
+	int pageAloc;
 } PROCESSO;
 
 typedef struct _MEMORIA {
@@ -52,11 +53,11 @@ int main (int argc, char* argv[]) {
 	
 	printf("\n--------LRU-------\n");
 	simuladorMemoriaVirtual(process, framesQnt, processCont, 1, fSize);
-	printf("\nPressione ENTER para continuar\n");
+	printf("\nPressione ENTER para ver o LRU-BitRef\n");
 	getchar();
 	printf("\n----LRU-BitRef----\n");
 	simuladorMemoriaVirtual(process, framesQnt, processCont, 2, fSize);
-	printf("\nPressione ENTER para continuar\n");
+	printf("\nPressione ENTER para ver o 2nd-Chance\n");
 	getchar();
 	printf("\n----2nd-Chance----\n");
 	simuladorMemoriaVirtual(process, framesQnt, processCont, 3, fSize);
@@ -282,6 +283,7 @@ int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, 
 	int flag1, flag2, cont = 0, contQuadros, pos, numPage, numFrame, j, i;	
 	int contador = 0, contadorSemTrocas = 0, pageFaults = 0;		
 	FILE *arq;
+	double percentageMemory, percentageTables; //variáveis que vao armazenar temporariamente os percentuais alocados
 
 	int tamanho, posicaoMemoria;	 // variaveis para leitura do arquivo
 	texto pName, pOper, tipoTamanho; // variáveis para leitura do arquivo
@@ -313,6 +315,9 @@ int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, 
 		*  pagina ja esta carregda no vetor, caso esteja os flags se tornam 1 (valor encontrado)
 		*  e o tempo e incrementado
 		*/
+		for (i = 0; i < processCont; i++) {
+			process[i].pageAloc = 0; //Zerar contador de páginas alocadas
+		}
 		flag1 = flag2 = 0;		// Flags zerados = pagina nao encontrada nos quadros
 		fscanf(arq, "%s", pName);
 		fscanf(arq, "%s", pOper);
@@ -434,6 +439,12 @@ int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, 
 			}
 			printf("\n");
 
+			for (i = 0; i < processCont; i++) {
+				for (j = 0; j < process[i].pageQnt; j++) {
+					if (process[i].pageTable[j] != -1) process[i].pageAloc++;
+				}
+			}
+
 			if (modo == 1){			
 				for (contQuadros = 0; contQuadros < framesQnt; ++contQuadros)
 					printf("Quadro %d: Pagina: %d \t Processo: %s \t Tempo de Entrada: %d\n",contQuadros, mainMemory.frames[contQuadros], mainMemory.frameProcId[contQuadros], mainMemory.time[contQuadros]);
@@ -448,6 +459,14 @@ int simuladorMemoriaVirtual (PROCESSO *process, int framesQnt, int processCont, 
 				for (contQuadros = 0; contQuadros < framesQnt; ++contQuadros)
 					printf("Quadro %d: Pagina: %d \t Processo: %s \t BitReferencia: %d \t Tempo de Entrada: %d\n",contQuadros, mainMemory.frames[contQuadros], mainMemory.frameProcId[contQuadros], mainMemory.bitRef[contQuadros],mainMemory.timeUnchange[contQuadros]);
 					printf("Page faults: %d\n", pageFaults);
+			}
+			for (i = 0; i < processCont; i++) {
+				percentageMemory = ((double)(process[i].pageAloc * 100) / framesQnt);
+				percentageTables = ((double)(process[i].pageAloc * 100) / process[i].pageQnt);
+				printf("+---------------------------PROCESSO %s ------------------------------------+\n", process[i].id);
+				printf("           Paginas: %d \t|\tAlocadas : %d\n", process[i].pageQnt, process[i].pageAloc);
+				printf("Percentual alocado: %.4lf\t|\tPercentual da memoria total: %.4lf\n",percentageTables, percentageMemory);
+				printf("+---------------------------------------------------------------------------+\n");
 			}
 		}else {
 			fscanf(arq,"%d", &tamanho);
